@@ -29,13 +29,22 @@ const handler = NextAuth({
         console.log(credentials) ;
         //validation
         return {
-          id: "user1",
+          id: "1",
           name:"rajveer singh chandel",
           email:"rajveer@gmail.com"
         };
       },
     }),
   ],
+  callbacks:{
+    session:({session,token,user}:any) => {
+        console.log(session)
+        if(session && session.user){
+            session.user.id = token.sub 
+        }
+        return session ;
+    }
+  },
   secret:process.env.NEXTAUTH_SECRET
 });
 
