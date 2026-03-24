@@ -14,39 +14,11 @@
 //         message:"You are calling a post request"
 //     })
 // }
+import { NEXT_AUTH } from "@/app/lib/auth";
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
 
-const handler = NextAuth({
-  providers: [
-    CredentialsProvider({
-      name: "Email",
-      credentials: {
-        username: { label: "Username", type: "text", placeholder: "Email" },
-        password: { label: "Password", type: "password", placeholder: "Password" },
-      },
-      async authorize(credentials: any) {
-        console.log(credentials) ;
-        //validation
-        return {
-          id: "1",
-          name:"rajveer singh chandel",
-          email:"rajveer@gmail.com"
-        };
-      },
-    }),
-  ],
-  callbacks:{
-    session:({session,token,user}:any) => {
-        console.log(session)
-        if(session && session.user){
-            session.user.id = token.sub 
-        }
-        return session ;
-    }
-  },
-  secret:process.env.NEXTAUTH_SECRET
-});
+
+const handler = NextAuth(NEXT_AUTH);
 
 export const GET = handler;
 export const POST = handler;
